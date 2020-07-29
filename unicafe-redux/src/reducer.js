@@ -8,13 +8,25 @@ const counterReducer = (state = initialState, action) => {
   console.log(action)
   switch (action.type) {
     case 'GOOD':
-      return state
+      let shallowCopyGood = {
+        ...state,
+        good: state.good+1
+      }
+      return shallowCopyGood
     case 'OK':
-      return state
+      let shallowCopyOk = {
+        ...state,
+        ok: state.ok+1
+      }
+      return shallowCopyOk
     case 'BAD':
-      return state
+      let shallowCopyBad = {
+        ...state,
+        bad: state.bad+1
+      }
+      return shallowCopyBad
     case 'ZERO':
-      return state
+      return initialState
     default: return state
   }
   
