@@ -1,4 +1,5 @@
-const initialState =  'some text => change to null when ready'
+//const initialState =  'some text => change to null when ready'
+const initialState =  null
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -12,8 +13,6 @@ const reducer = (state = initialState, action) => {
 }
 
 export const setNotificationMessage = (newMessage) => {
-    console.log('newMessage :>> ', newMessage);
-
     return(
         {
             type: 'SET_NOTIFICATION_MESSAGE',
