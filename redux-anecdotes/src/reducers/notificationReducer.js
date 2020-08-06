@@ -1,7 +1,6 @@
-//const initialState =  'some text => change to null when ready'
-const initialState =  null
+let timers = 0;
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = null, action) => {
     switch (action.type) {
         case 'SET_NOTIFICATION_MESSAGE':
             return action.data    
@@ -9,6 +8,25 @@ const reducer = (state = initialState, action) => {
             return null
         default:
             return state
+    }
+}
+
+export const setNotificationWithTimeout = (text, showTimeInSeconds) => {
+    return async dispatch => {
+        timers++
+        dispatch({
+            type: 'SET_NOTIFICATION_MESSAGE',
+            data: text
+        })
+        setTimeout(() => {
+            timers--
+            console.log('timers :>> ', timers); 
+            if(timers===0){
+                dispatch({
+                    type: 'SET_NOTIFICATION_MESSAGE_NULL'
+                })
+            }
+        }, showTimeInSeconds * 1000);
     }
 }
 
