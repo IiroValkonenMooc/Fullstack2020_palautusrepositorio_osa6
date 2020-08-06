@@ -8,13 +8,7 @@ const AnecdoteForm = () => {
 
     const newAnecdote = async (event) => {
         event.preventDefault()
-        const createdAnecdote = await anecdoteService.postAnecdote(
-            {
-                content: event.target.content.value,
-                votes: 0
-            }
-        )
-        dispatch( createAnecdote(createdAnecdote) )
+        dispatch(createAnecdote(event.target.content.value) )
     }
 
     return (
