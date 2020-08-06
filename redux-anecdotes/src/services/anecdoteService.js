@@ -9,8 +9,12 @@ const getAll = async () => {
 
 const postAnecdote = async (newAnecdote) => {
     const createdAnecdote = await axios.post(baseUrl, newAnecdote)
-    console.log('createdAnecdote :>> ', createdAnecdote)
     return createdAnecdote.data
 }
 
-export default { getAll, postAnecdote }
+const likeAnecdote = async (anecdote) => {
+    const updatedAnecdote = await axios.put(`${baseUrl}/${anecdote.id}`, anecdote)
+    return updatedAnecdote
+}
+
+export default { getAll, postAnecdote, likeAnecdote }
