@@ -1,28 +1,32 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+//import { useSelector, useDispatch, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 
-const AnecdoteList = ( ) => {
+const AnecdoteList = (props) => {
 
-    const anecdotes = useSelector( 
-        state => state.anecdotes.slice().sort((a, b) => b.votes-a.votes )
-            .filter(anecdote => 
-                anecdote.content.toLowerCase().includes(state.filter.slice().toLowerCase()) 
-            )
-        )
-    const dispatch = useDispatch()
+    // const anecdotes = useSelector( 
+    //     state => state.anecdotes.slice().sort((a, b) => b.votes-a.votes )
+    //         .filter(anecdote => 
+    //             anecdote.content.toLowerCase().includes(state.filter.slice().toLowerCase()) 
+    //         )
+    //     )
+
+    //const dispatch = useDispatch()
 
     const vote = async (id) => {
-        const votedAnecdodeteName = anecdotes.find(anecdote => anecdote.id === id).content
+        const votedAnecdodeteName = props.anecdotes.find(anecdote => anecdote.id === id).content
 
-        dispatch( setNotificationWithTimeout(`You voted ${votedAnecdodeteName}`,5) )
-        dispatch( voteAnecdote(id) )
+        //dispatch( setNotificationWithTimeout(`You voted ${votedAnecdodeteName}`,5) )
+        props.setNotificationWithTimeout(`You voted ${votedAnecdodeteName}`,5)
+        //dispatch( voteAnecdote(id) )
+        props.voteAnecdote(id)
     }
 
     return(
         <div>
-            {anecdotes.map(anecdote =>
+            {props.anecdotes.map(anecdote =>
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}
@@ -37,4 +41,24 @@ const AnecdoteList = ( ) => {
     )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) =>{
+    return {
+        anecdotes: state.anecdotes.slice().sort((a, b) => b.votes - a.votes)
+            .filter(anecdote =>
+                anecdote.content.toLowerCase().includes(state.filter.slice().toLowerCase())
+            )
+    }
+}
+
+const mapDispatchToProps = {
+    voteAnecdote,
+    setNotificationWithTimeout
+}
+
+const ConnectAnecdotes = connect(
+    mapStateToProps,
+    mapDispatchToProps
+) (AnecdoteList)
+
+//export default AnecdoteList
+export default ConnectAnecdotes

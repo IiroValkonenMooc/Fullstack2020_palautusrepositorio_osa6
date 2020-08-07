@@ -1,4 +1,5 @@
-let timers = 0;
+//let timers = 0;
+let timeoutId
 
 const reducer = (state = null, action) => {
     switch (action.type) {
@@ -13,19 +14,21 @@ const reducer = (state = null, action) => {
 
 export const setNotificationWithTimeout = (text, showTimeInSeconds) => {
     return async dispatch => {
-        timers++
+        //timers++
         dispatch({
             type: 'SET_NOTIFICATION_MESSAGE',
             data: text
         })
-        setTimeout(() => {
-            timers--
-            console.log('timers :>> ', timers); 
-            if(timers===0){
-                dispatch({
-                    type: 'SET_NOTIFICATION_MESSAGE_NULL'
-                })
-            }
+
+        if(timeoutId){
+            clearTimeout(timeoutId)
+        }
+
+        timeoutId = setTimeout(() => {
+            //timers--
+            dispatch({
+                type: 'SET_NOTIFICATION_MESSAGE_NULL'
+            })
         }, showTimeInSeconds * 1000);
     }
 }
